@@ -39,7 +39,7 @@ export const TrustScoreDisplay: React.FC = () => {
     setError("");
 
     try {
-      const score = await calculateTrustScore(pgpPublicKey);
+      const score = await calculateTrustScore(fingerprint);
       setTrustScore(score);
     } catch (err) {
       setError((err as Error).message);
