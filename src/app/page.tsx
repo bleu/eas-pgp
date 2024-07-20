@@ -1,61 +1,85 @@
-// src/app/page.tsx
 "use client";
 
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import React from "react";
+import Layout from "@/components/Layout";
 import { PGPKeyForm } from "./_components/PGPKeyForm";
 import { TrustScoreDisplay } from "./_components/TrustScoreDisplay";
-import { SCHEMA_UID, usePGPKeyServer } from "./_components/usePGPKeyServer";
+import { SelfAttestation } from "./_components/SelfAttestation";
+import { usePGPKeyServer } from "@/hooks/usePGPKeyServer";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-function App() {
-  const account = useAccount();
-  const { connectors, connect, status, error } = useConnect();
-  const { disconnect } = useDisconnect();
-  const { fetchOrInitializeSchema } = usePGPKeyServer();
+const App: React.FC = () => {
+  const {
+    fetchOrInitializeSchema,
+    SELF_ATTESTATION_SCHEMA_UID,
+    THIRD_PARTY_ATTESTATION_SCHEMA_UID,
+  } = usePGPKeyServer();
 
   return (
-    <>
-      <div>
-        <h2>Account</h2>
-        <div>
-          status: {account.status}
-          <br />
-          addresses: {JSON.stringify(account.addresses)}
-          <br />
-          chainId: {account.chainId}
-        </div>
-        {account.status === "connected" && (
-          <button type="button" onClick={() => disconnect()}>
-            Disconnect
-          </button>
-        )}
+    <Layout>
+      <div className="space-y-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>PGP Attestation Schemas</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-2">
+              Self-Attestation Schema UID: {SELF_ATTESTATION_SCHEMA_UID}
+            </p>
+            <p className="mb-4">
+              Third-Party Attestation Schema UID:{" "}
+              {THIRD_PARTY_ATTESTATION_SCHEMA_UID}
+            </p>
+            <Button onClick={fetchOrInitializeSchema}>
+              Initialize Schemas
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Tabs defaultValue="self-attest">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="self-attest">Self-Attest PGP Key</TabsTrigger>
+            <TabsTrigger value="third-party-attest">
+              Third-Party Attestation
+            </TabsTrigger>
+            <TabsTrigger value="query">Query Trust Score</TabsTrigger>
+          </TabsList>
+          <TabsContent value="self-attest">
+            <Card>
+              <CardHeader>
+                <CardTitle>Self-Attest to PGP Key</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SelfAttestation />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="third-party-attest">
+            <Card>
+              <CardHeader>
+                <CardTitle>Third-Party Attestation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <PGPKeyForm />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="query">
+            <Card>
+              <CardHeader>
+                <CardTitle>Calculate Trust Score</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TrustScoreDisplay />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
-
-      <div>
-        <h2>Connect</h2>
-        {connectors.map((connector) => (
-          <button
-            key={connector.uid}
-            onClick={() => connect({ connector })}
-            type="button"
-          >
-            {connector.name}
-          </button>
-        ))}
-        <div>{status}</div>
-        <div>{error?.message}</div>
-      </div>
-
-      <h2>Initialize Schema</h2>
-      <input value={SCHEMA_UID ?? ""} disabled />
-      <button onClick={fetchOrInitializeSchema}>Initialize Schema</button>
-
-      <h2>Attest to PGP Key</h2>
-      <PGPKeyForm />
-
-      <h2>Calculate Trust Score</h2>
-      <TrustScoreDisplay />
-    </>
+    </Layout>
   );
-}
+};
 
 export default App;
