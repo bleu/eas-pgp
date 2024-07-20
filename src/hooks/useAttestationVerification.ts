@@ -15,18 +15,18 @@ export const useAttestationVerification = () => {
       try {
         const attestation = await eas.getAttestation(attestationUID);
         const decodedData = SELF_ATTESTATION_SCHEMA_ENCODER.decodeData(
-          attestation.data
+          attestation.data,
         );
 
         const publicKey = decodeURIComponent(
           decodedData
             .find((item) => item.name === "publicKey")
-            ?.value.value.toString()!
+            ?.value.value.toString()!,
         );
         const signedMessage = decodeURIComponent(
           decodedData
             .find((item) => item.name === "signedMessage")
-            ?.value.value.toString()!
+            ?.value.value.toString()!,
         );
 
         if (!publicKey || !signedMessage) {
@@ -57,7 +57,7 @@ export const useAttestationVerification = () => {
         return false;
       }
     },
-    [eas]
+    [eas],
   );
 
   return { verifySelfAttestation };

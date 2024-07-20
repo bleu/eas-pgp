@@ -9,13 +9,13 @@ import { usePGPKeyServer } from "@/hooks/usePGPKeyServer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  SELF_ATTESTATION_SCHEMA_UID,
+  THIRD_PARTY_ATTESTATION_SCHEMA_UID,
+} from "@/hooks/useAttestationCreation";
 
 const App: React.FC = () => {
-  const {
-    fetchOrInitializeSchema,
-    SELF_ATTESTATION_SCHEMA_UID,
-    THIRD_PARTY_ATTESTATION_SCHEMA_UID,
-  } = usePGPKeyServer();
+  const { fetchOrInitializeSchema } = usePGPKeyServer();
 
   return (
     <Layout>

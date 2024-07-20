@@ -69,7 +69,7 @@ export const SelfAttestation: React.FC = () => {
 
         if (!isValid) {
           setError(
-            "Invalid signature or message does not match the expected content"
+            "Invalid signature or message does not match the expected content",
           );
         } else {
           setError("");
@@ -90,7 +90,7 @@ export const SelfAttestation: React.FC = () => {
 
     if (!isValidKey || !isValidSignature) {
       setError(
-        "Please ensure both the PGP public key and signed message are valid"
+        "Please ensure both the PGP public key and signed message are valid",
       );
       return;
     }
@@ -98,10 +98,10 @@ export const SelfAttestation: React.FC = () => {
     try {
       const attestationHash = await createSelfAttestation(
         pgpPublicKey,
-        signedMessage
+        signedMessage,
       );
       setSuccess(
-        `Self-attestation created with transaction hash: ${attestationHash}`
+        `Self-attestation created with transaction hash: ${attestationHash}`,
       );
     } catch (err) {
       console.log(err);
@@ -118,7 +118,7 @@ export const SelfAttestation: React.FC = () => {
         <AlertDescription>
           <ol className="list-decimal list-inside space-y-2">
             <li>
-              Install GPG if you haven't already:
+              Install GPG if you haven&apos;t already:
               <ul className="list-disc list-inside ml-4">
                 <li>
                   On macOS: <code>brew install gnupg</code>
@@ -151,8 +151,8 @@ export const SelfAttestation: React.FC = () => {
               <code className="block bg-gray-100 p-2 my-2 rounded">
                 gpg --list-secret-keys --keyid-format=long
               </code>
-              Look for the line starting with "sec" and note the key ID after
-              the "/".
+              Look for the line starting with &quot;sec&quot; and note the key
+              ID after the &quot;/&quot;.
             </li>
             <li>
               Export your public key in ASCII armor format:
@@ -164,17 +164,18 @@ export const SelfAttestation: React.FC = () => {
             </li>
             <li>
               Copy the entire GPG armor output (including the BEGIN and END
-              lines) and paste it in the "PGP Public Key" field below.
+              lines) and paste it in the &quot;PGP Public Key&quot; field below.
             </li>
             <li>
               Sign your Ethereum address with your new PGP key:
               <code className="block bg-gray-100 p-2 my-2 rounded">
-                echo -n "{messageToSign}" | gpg --clearsign
+                echo -n &quot;{messageToSign}&quot; | gpg --clearsign
               </code>
             </li>
             <li>
               Copy the entire output of the signing command (including the BEGIN
-              and END lines) and paste it in the "Signed Message" field below.
+              and END lines) and paste it in the &quot;Signed Message&quot;
+              field below.
             </li>
           </ol>
         </AlertDescription>

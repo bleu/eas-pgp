@@ -13,24 +13,24 @@ export const THIRD_PARTY_ATTESTATION_SCHEMA =
   "string publicKeyOrFingerprint, uint8 trustLevel, string metadata, uint256 timestamp";
 
 export const SELF_ATTESTATION_SCHEMA_ENCODER = new SchemaEncoder(
-  SELF_ATTESTATION_SCHEMA
+  SELF_ATTESTATION_SCHEMA,
 );
 export const THIRD_PARTY_ATTESTATION_SCHEMA_ENCODER = new SchemaEncoder(
-  THIRD_PARTY_ATTESTATION_SCHEMA
+  THIRD_PARTY_ATTESTATION_SCHEMA,
 );
 
 export const SELF_ATTESTATION_SCHEMA_UID = keccak256(
   encodePacked(
     ["string", "address", "bool"],
-    [SELF_ATTESTATION_SCHEMA, zeroAddress, true]
-  )
+    [SELF_ATTESTATION_SCHEMA, zeroAddress, true],
+  ),
 );
 
 export const THIRD_PARTY_ATTESTATION_SCHEMA_UID = keccak256(
   encodePacked(
     ["string", "address", "bool"],
-    [THIRD_PARTY_ATTESTATION_SCHEMA, zeroAddress, true]
-  )
+    [THIRD_PARTY_ATTESTATION_SCHEMA, zeroAddress, true],
+  ),
 );
 
 export const useAttestationCreation = () => {
@@ -70,14 +70,14 @@ export const useAttestationCreation = () => {
 
       return await tx.wait();
     },
-    [eas]
+    [eas],
   );
 
   const createThirdPartyAttestation = useCallback(
     async (
       publicKeyOrFingerprint: string,
       trustLevel: number,
-      metadata: string
+      metadata: string,
     ): Promise<string> => {
       if (!eas) throw new Error("EAS not initialized");
 
@@ -110,7 +110,7 @@ export const useAttestationCreation = () => {
 
       return await tx.wait();
     },
-    [eas]
+    [eas],
   );
 
   return { createSelfAttestation, createThirdPartyAttestation };
