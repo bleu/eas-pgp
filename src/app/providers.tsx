@@ -5,6 +5,8 @@ import { type ReactNode, useState } from "react";
 import { type State, WagmiProvider } from "wagmi";
 
 import { getConfig } from "@/wagmi";
+import { ApolloProvider } from "@apollo/client";
+import client from "@/lib/apollo-client";
 
 export function Providers(props: {
   children: ReactNode;
@@ -15,9 +17,11 @@ export function Providers(props: {
 
   return (
     <WagmiProvider config={config} initialState={props.initialState}>
-      <QueryClientProvider client={queryClient}>
-        {props.children}
-      </QueryClientProvider>
+      <ApolloProvider client={client}>
+        <QueryClientProvider client={queryClient}>
+          {props.children}
+        </QueryClientProvider>
+      </ApolloProvider>
     </WagmiProvider>
   );
 }
