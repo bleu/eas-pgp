@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import useRevokeAttestation from "@/hooks/useRevokeOnChainAttestation";
 
-const RevokeAttestationPage = ({
+const RevokeAttestation = ({
   uid,
   schemaId,
+  isRevoked,
 }: {
   uid: string;
   schemaId: string;
+  isRevoked: boolean;
 }) => {
   const { revokeAttestation, loading, error, success } = useRevokeAttestation();
 
@@ -20,7 +22,7 @@ const RevokeAttestationPage = ({
         variant={"outline"}
         className="bg-red-500 text-white"
         onClick={handleRevoke}
-        disabled={loading}
+        disabled={loading || isRevoked}
       >
         Revoke
       </Button>
@@ -33,4 +35,4 @@ const RevokeAttestationPage = ({
   );
 };
 
-export default RevokeAttestationPage;
+export default RevokeAttestation;

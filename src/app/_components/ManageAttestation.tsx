@@ -10,13 +10,14 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import RevokeAttestationPage from "./RevokeAttestation";
-
+import RevokeAttestation from "./RevokeAttestation";
+import { useCallback, useMemo } from "react";
+import { formatKey } from "@/lib/formatKey";
+import { formatTime } from "@/lib/formatTime";
 const ManageAttestation: NextPage = () => {
   const { attestations, loading, error } = useGetAttestations();
-  console.log(attestations);
 
-  const renderTableHeader = () => {
+  const renderTableHeader = useMemo(() => {
     if (attestations && attestations.length > 0) {
       return (
         <TableRow>
@@ -29,16 +30,17 @@ const ManageAttestation: NextPage = () => {
         </TableRow>
       );
     }
-    return null;
-  };
+    return <></>;
+  }, [attestations]);
 
-  const renderTableRows = () => {
+  const renderTableRows = useCallback(() => {
     return attestations?.map((attestation: any) => (
       <TableRow key={attestation.id}>
         <TableCell className="text-right">
-          <RevokeAttestationPage
+          <RevokeAttestation
             uid={attestation.id}
             schemaId={attestation.schema.id}
+            isRevoked={attestation.revoked}
           />
         </TableCell>
         {Object.entries(attestation).map(([key, value], index) => (
@@ -59,44 +61,25 @@ const ManageAttestation: NextPage = () => {
         ))}
       </TableRow>
     ));
-  };
+  }, [attestations]);
 
-  const formatKey = (key: string): string => {
-    // Replace underscores with spaces and split camelCase words with a space
-    const result = key
-      .replace(/([A-Z])/g, " $1") // Insert space before each uppercase letter
-      .replace(/_/g, " ") // Replace underscores with spaces
-      .trim(); // Remove leading and trailing spaces
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-    // Capitalize the first letter of each word
-    return result
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  };
-
-  const formatTime = (timestamp: number, timeType: string) => {
-    if (timestamp === 0 && timeType === "revocationTime") {
-      return "No Previous revocation";
-    }
-    if (timestamp === 0 && timeType === "expirationTime") {
-      return "No Expiration";
-    }
-    const date = new Date(timestamp * 1000); // Convert from seconds to milliseconds
-    return date.toLocaleString(); // Format the date as a human-readable string
-  };
+  if (error) {
+    return <p>{error.message}</p>;
+  }
 
   return (
     <div>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error.message}</p>}
       <Table>
         <TableCaption>
           {attestations
             ? "A list of your attestations"
             : "Please connect wallet"}
         </TableCaption>
-        <TableHeader>{renderTableHeader()}</TableHeader>
+        <TableHeader>{renderTableHeader}</TableHeader>
         <TableBody>{renderTableRows()}</TableBody>
       </Table>
     </div>

@@ -30,7 +30,7 @@ import { useAttestationVerification } from "./useAttestationVerification";
 const EAS_CONTRACT_ADDRESS = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 const SCHEMA_REGISTRY_ADDRESS = "0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0"; // Sepolia 0.26
 
-const graphqlFetch = async (query: string, variables: any) => {
+const urqlFetch = async (query: string, variables: any) => {
   //TODO: it should be an environment variable
   const response = await fetch("https://sepolia.easscan.org/graphql", {
     method: "POST",
@@ -136,7 +136,7 @@ export const usePGPKeyServer = () => {
       }
     `;
 
-      const result = await graphqlFetch(query, {
+      const result = await urqlFetch(query, {
         selfSchemaId: SELF_ATTESTATION_SCHEMA_UID,
         thirdPartySchemaId: THIRD_PARTY_ATTESTATION_SCHEMA_UID,
         publicKeyOrFingerprint: encodeURIComponent(publicKeyOrFingerprint),
@@ -201,7 +201,7 @@ export const usePGPKeyServer = () => {
       }
     `;
 
-      const result = await graphqlFetch(query, { attester: attesterAddress });
+      const result = await urqlFetch(query, { attester: attesterAddress });
       const attestationCount = result.data.attestationCount.aggregate.count;
       return Math.min(100, attestationCount * 5); // 5 points per attestation, max 100
     },

@@ -9,6 +9,7 @@ export const ATTESTATIONS_FOR_SPECIFIC_ATTESTER = gql`
       revocable
       revocationTime
       expirationTime
+      revoked
       schema {
         id
       }
