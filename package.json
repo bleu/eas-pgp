@@ -12,7 +12,6 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "@apollo/client": "^3.11.1",
     "@ethereum-attestation-service/eas-contracts": "^1.7.1",
     "@ethereum-attestation-service/eas-sdk": "^2.5.0",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
@@ -27,7 +26,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "ethers": "^6.13.1",
-    "graphql": "^16.9.0",
     "lucide-react": "^0.411.0",
     "next": "^15.0.0-rc.0",
     "openpgp": "^5.11.2",

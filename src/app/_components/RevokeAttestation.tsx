@@ -25,8 +25,10 @@ const RevokeAttestationPage = ({
         Revoke
       </Button>
       {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {success && <p>Attestation revoked successfully</p>}
+      {error && <p className="text-red-500">{error}</p>}
+      {success && (
+        <p className="text-green-500">Attestation revoked successfully</p>
+      )}
     </div>
   );
 };

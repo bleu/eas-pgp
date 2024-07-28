@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from "urql";
 
 export const ATTESTATIONS_FOR_SPECIFIC_ATTESTER = gql`
   query AttestationsForSpecificAttester($attester: String!) {
