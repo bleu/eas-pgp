@@ -1,5 +1,5 @@
 import React from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useEnsName } from "wagmi";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,6 +10,10 @@ import {
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { address, isConnected } = useAccount();
+  const { data: ensName } = useEnsName({
+    address,
+  });
+
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
@@ -22,7 +26,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="bg-white text-red-500">
-                  {address?.slice(0, 6)}...{address?.slice(-4)}
+                  {ensName
+                    ? ensName
+                    : address?.slice(0, 6) + "..." + address?.slice(-4)}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
