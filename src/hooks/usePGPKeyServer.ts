@@ -30,7 +30,8 @@ import { useAttestationVerification } from "./useAttestationVerification";
 const EAS_CONTRACT_ADDRESS = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 const SCHEMA_REGISTRY_ADDRESS = "0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0"; // Sepolia 0.26
 
-const graphqlFetch = async (query: string, variables: any) => {
+const urqlFetch = async (query: string, variables: any) => {
+  //TODO: it should be an environment variable
   const response = await fetch("https://sepolia.easscan.org/graphql", {
     method: "POST",
     headers: {
@@ -52,7 +53,7 @@ export const usePGPKeyServer = () => {
   const { verifySelfAttestation } = useAttestationVerification();
   const [eas, setEas] = useState<EAS | null>(null);
   const [schemaRegistry, setSchemaRegistry] = useState<SchemaRegistry | null>(
-    null,
+    null
   );
 
   useEffect(() => {
@@ -98,7 +99,7 @@ export const usePGPKeyServer = () => {
     async (
       publicKeyOrFingerprint: string,
       limit: number = 100,
-      offset: number = 0,
+      offset: number = 0
     ): Promise<any[]> => {
       const query = `
       query($selfSchemaId: String!, $thirdPartySchemaId: String!, $publicKeyOrFingerprint: String!, $limit: Int!, $offset: Int!) {
@@ -135,7 +136,7 @@ export const usePGPKeyServer = () => {
       }
     `;
 
-      const result = await graphqlFetch(query, {
+      const result = await urqlFetch(query, {
         selfSchemaId: SELF_ATTESTATION_SCHEMA_UID,
         thirdPartySchemaId: THIRD_PARTY_ATTESTATION_SCHEMA_UID,
         publicKeyOrFingerprint: encodeURIComponent(publicKeyOrFingerprint),
@@ -168,9 +169,9 @@ export const usePGPKeyServer = () => {
           ...attestation,
           type: "self",
           decodedData: decodeURIComponents(
-            decodeData(attestation.decodedDataJson),
+            decodeData(attestation.decodedDataJson)
           ),
-        }),
+        })
       );
 
       const thirdPartyAttestations = result.data.thirdPartyAttestations.map(
@@ -178,14 +179,14 @@ export const usePGPKeyServer = () => {
           ...attestation,
           type: "thirdParty",
           decodedData: decodeURIComponents(
-            decodeData(attestation.decodedDataJson),
+            decodeData(attestation.decodedDataJson)
           ),
-        }),
+        })
       );
 
       return [...selfAttestations, ...thirdPartyAttestations];
     },
-    [],
+    []
   );
 
   const getAttesterReputation = useCallback(
@@ -200,11 +201,11 @@ export const usePGPKeyServer = () => {
       }
     `;
 
-      const result = await graphqlFetch(query, { attester: attesterAddress });
+      const result = await urqlFetch(query, { attester: attesterAddress });
       const attestationCount = result.data.attestationCount.aggregate.count;
       return Math.min(100, attestationCount * 5); // 5 points per attestation, max 100
     },
-    [],
+    []
   );
 
   const calculateTrustScore = useCallback(
@@ -214,7 +215,7 @@ export const usePGPKeyServer = () => {
         (a) =>
           !a.revocationTime &&
           (a.type === "self" ||
-            a.decodedData.expirationTime > Date.now() / 1000),
+            a.decodedData.expirationTime > Date.now() / 1000)
       );
 
       if (validAttestations.length === 0) return 0;
@@ -230,7 +231,7 @@ export const usePGPKeyServer = () => {
       }
 
       for (const attestation of validAttestations.filter(
-        (a) => a.type === "thirdParty",
+        (a) => a.type === "thirdParty"
       )) {
         const attesterScore = await getAttesterReputation(attestation.attester);
         const attestationAge =
@@ -239,7 +240,7 @@ export const usePGPKeyServer = () => {
 
         const trustLevelWeight = Math.pow(
           attestation.decodedData.trustLevel / 100,
-          2,
+          2
         ); // Quadratic weighting for trust level
 
         trustScore +=
@@ -249,12 +250,12 @@ export const usePGPKeyServer = () => {
 
       return Math.min(100, trustScore);
     },
-    [getAttestationsForKey, getAttesterReputation, verifySelfAttestation],
+    [getAttestationsForKey, getAttesterReputation, verifySelfAttestation]
   );
 
   const getKeyInfo = useCallback(
     async (
-      pgpPublicKey: string,
+      pgpPublicKey: string
     ): Promise<{
       fingerprint: string;
       userIds: string[];
@@ -275,7 +276,7 @@ export const usePGPKeyServer = () => {
         isValid,
       };
     },
-    [],
+    []
   );
 
   return {

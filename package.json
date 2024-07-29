@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{md,html,mjml,json,yml,css,scss,ts,tsx,js,jsx}\"",
-    "lint:fix": "eslint '**/*.{ts,tsx}' --fix"
+    "lint:fix": "eslint '**/*.{ts,tsx}' --fix",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@ethereum-attestation-service/eas-contracts": "^1.7.1",
