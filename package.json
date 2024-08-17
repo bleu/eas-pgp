@@ -36,7 +36,8 @@
     "tailwindcss-animate": "^1.0.7",
     "urql": "^4.1.0",
     "viem": "latest",
-    "wagmi": "latest"
+    "wagmi": "latest",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.5",

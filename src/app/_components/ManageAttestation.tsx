@@ -14,8 +14,17 @@ import RevokeAttestation from "./RevokeAttestation";
 import { useCallback, useMemo } from "react";
 import { formatKey } from "@/lib/formatKey";
 import { formatTime } from "@/lib/formatTime";
+import { useRouter } from "next/navigation";
 const ManageAttestation: NextPage = () => {
   const { attestations, loading, error } = useGetAttestations();
+
+  const router = useRouter();
+  const handleNavigateById = useCallback(
+    (id: string) => {
+      router.push(`/manage/${id}`);
+    },
+    [router]
+  );
 
   const renderTableHeader = useMemo(() => {
     if (attestations && attestations.length > 0) {
@@ -46,11 +55,13 @@ const ManageAttestation: NextPage = () => {
         {Object.entries(attestation).map(([key, value], index) => (
           <TableCell
             key={index}
-            className={
+            onClick={handleNavigateById.bind(null, attestation.id)}
+            className={`${
               index === Object.entries(attestation).length - 1
                 ? "text-right"
                 : ""
-            }
+            }cursor-pointer
+            `}
           >
             {key === "revocationTime" || key === "expirationTime"
               ? formatTime(Number(value), key)
@@ -61,7 +72,7 @@ const ManageAttestation: NextPage = () => {
         ))}
       </TableRow>
     ));
-  }, [attestations]);
+  }, [attestations, handleNavigateById]);
 
   if (loading) {
     return <p>Loading...</p>;

@@ -10,7 +10,7 @@ const RevokeAttestation = ({
   schemaId: string;
   isRevoked: boolean;
 }) => {
-  const { revokeAttestation, loading, error, success } = useRevokeAttestation();
+  const { revokeAttestation, loading } = useRevokeAttestation();
 
   const handleRevoke = () => {
     revokeAttestation(uid, schemaId);
@@ -26,11 +26,6 @@ const RevokeAttestation = ({
       >
         Revoke
       </Button>
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      {success && (
-        <p className="text-green-500">Attestation revoked successfully</p>
-      )}
     </div>
   );
 };

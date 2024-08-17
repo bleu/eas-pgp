@@ -1,12 +1,10 @@
 "use client";
-import { useState } from "react";
 import { useEASConnection } from "@/hooks/useEASConnection";
-
+import { useRevokeAttestationStore } from "@/store/useRevokeAttestationState";
 const useRevokeOnChainAttestation = () => {
   const { eas } = useEASConnection();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
+  const { loading, error, success, setLoading, setError, setSuccess } =
+    useRevokeAttestationStore();
 
   const revokeAttestation = async (uid: string, schemaId: string) => {
     if (!eas) {
