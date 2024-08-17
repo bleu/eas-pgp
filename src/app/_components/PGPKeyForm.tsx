@@ -1,5 +1,5 @@
 // src/app/_components/PGPKeyForm.tsx
-
+"use client";
 import React, { useState, useEffect } from "react";
 import { usePGPKeyServer } from "@/hooks/usePGPKeyServer";
 import { PGPKeyGenerator } from "./PGPKeyGenerator";
@@ -38,8 +38,8 @@ export const PGPKeyForm: React.FC = () => {
                 expires: keyInfo.expires,
               },
               null,
-              2,
-            ),
+              2
+            )
           );
         } catch (err) {
           console.error("Error getting key info:", err);
@@ -63,10 +63,10 @@ export const PGPKeyForm: React.FC = () => {
       const attestationHash = await createThirdPartyAttestation(
         inputType === "publicKey" ? pgpPublicKey : fingerprint,
         trustLevel,
-        metadata,
+        metadata
       );
       setSuccess(
-        `Attestation created with transaction hash: ${attestationHash}`,
+        `Attestation created with transaction hash: ${attestationHash}`
       );
     } catch (err) {
       setError((err as Error).message);

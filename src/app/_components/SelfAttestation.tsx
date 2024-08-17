@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { usePGPKeyServer } from "@/hooks/usePGPKeyServer";
 import { useAccount } from "wagmi";
@@ -69,7 +70,7 @@ export const SelfAttestation: React.FC = () => {
 
         if (!isValid) {
           setError(
-            "Invalid signature or message does not match the expected content",
+            "Invalid signature or message does not match the expected content"
           );
         } else {
           setError("");
@@ -90,7 +91,7 @@ export const SelfAttestation: React.FC = () => {
 
     if (!isValidKey || !isValidSignature) {
       setError(
-        "Please ensure both the PGP public key and signed message are valid",
+        "Please ensure both the PGP public key and signed message are valid"
       );
       return;
     }
@@ -98,10 +99,10 @@ export const SelfAttestation: React.FC = () => {
     try {
       const attestationHash = await createSelfAttestation(
         pgpPublicKey,
-        signedMessage,
+        signedMessage
       );
       setSuccess(
-        `Self-attestation created with transaction hash: ${attestationHash}`,
+        `Self-attestation created with transaction hash: ${attestationHash}`
       );
     } catch (err) {
       console.log(err);
