@@ -14,6 +14,7 @@ import {
   THIRD_PARTY_ATTESTATION_SCHEMA_UID,
 } from "@/hooks/useAttestationCreation";
 import ManageAttestation from "./_components/ManageAttestation";
+import SearchAttestation from "./_components/SearchAttestation";
 
 const App: React.FC = () => {
   const { fetchOrInitializeSchema } = usePGPKeyServer();
@@ -40,13 +41,14 @@ const App: React.FC = () => {
         </Card>
 
         <Tabs defaultValue="self-attest">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="self-attest">Self-Attest PGP Key</TabsTrigger>
             <TabsTrigger value="third-party-attest">
               Third-Party Attestation
             </TabsTrigger>
             <TabsTrigger value="query">Query Trust Score</TabsTrigger>
             <TabsTrigger value="manage">Manage Attestations</TabsTrigger>
+            <TabsTrigger value="search">Search Attestation</TabsTrigger>
           </TabsList>
           <TabsContent value="self-attest">
             <Card>
@@ -85,6 +87,16 @@ const App: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <ManageAttestation />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="search">
+            <Card>
+              <CardHeader>
+                <CardTitle>Search Attestations</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SearchAttestation />
               </CardContent>
             </Card>
           </TabsContent>
