@@ -15,6 +15,7 @@ function Navbar() {
     { label: "History", href: "/history" },
     { label: "PGP Score", href: "/pgp-score" },
     { label: "Manage", href: "/manage" },
+    { label: "Search", href: "/search" },
   ];
 
   return (
