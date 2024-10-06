@@ -39,10 +39,30 @@ function AttestationDetails() {
     [attestations, currentId]
   );
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading data: {error.message}</p>;
-  if (!attestations?.length) return <p>No attestations found.</p>;
-  if (!attestation) return <p>Attestation not found.</p>;
+  if (loading)
+    return (
+      <div className="w-full h-96 items-center justify-center text-lg flex">
+        <div>Loading...</div>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="w-full h-96 items-center justify-center text-lg flex">
+        Error loading data: {error.message}
+      </div>
+    );
+  if (!attestations?.length)
+    return (
+      <div className="w-full h-96 items-center justify-center text-lg flex">
+        No attestations found.
+      </div>
+    );
+  if (!attestation)
+    return (
+      <div className="w-full h-96 items-center justify-center text-lg flex">
+        Attestation not found.
+      </div>
+    );
 
   return (
     <div className="py-6">

@@ -52,14 +52,16 @@ export const TrustScoreDisplay: React.FC = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label htmlFor="pgp-key">PGP Public Key</Label>
+        <Label htmlFor="pgp-key" className="text-lg">
+          PGP Public Key
+        </Label>
         <Textarea
           id="pgp-key"
           value={pgpPublicKey}
           onChange={(e) => setPgpPublicKey(e.target.value)}
           placeholder="Paste PGP Public Key here"
           required
-          className="h-32"
+          className="h-32 mt-4"
         />
       </div>
 
@@ -79,7 +81,7 @@ export const TrustScoreDisplay: React.FC = () => {
         type="submit"
         variant={"secondary"}
         disabled={loading}
-        className="w-full"
+        className="w-full "
       >
         {loading ? (
           <>
