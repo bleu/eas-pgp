@@ -19,12 +19,12 @@ const RevokeAttestation = ({
   return (
     <div>
       <Button
-        variant={"outline"}
-        className="bg-red-500 text-white"
+        variant={"default"}
+        className="w-full"
         onClick={handleRevoke}
         disabled={loading || isRevoked}
       >
-        Revoke
+        {isRevoked ? "Revoked" : "Revoke"}
       </Button>
     </div>
   );

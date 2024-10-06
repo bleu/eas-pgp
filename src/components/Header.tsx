@@ -57,9 +57,7 @@ function Header() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="bg-white text-red-500">
-                Connect Wallet
-              </Button>
+              <Button variant={"secondary"}>Connect Wallet</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {connectors.map((connector) => (

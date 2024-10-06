@@ -26,6 +26,9 @@ importers:
       '@radix-ui/react-radio-group':
         specifier: ^1.2.0
         version: 1.2.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)
+      '@radix-ui/react-separator':
+        specifier: ^1.1.0
+        version: 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)
       '@radix-ui/react-slider':
         specifier: ^1.2.0
         version: 1.2.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)
@@ -83,6 +86,9 @@ importers:
       wagmi:
         specifier: latest
         version: 2.11.3(@tanstack/query-core@5.51.9)(@tanstack/react-query@5.51.9(react@19.0.0-rc-fb9a90fa48-20240614))(@types/react@18.3.3)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react-native@0.74.3(@babel/core@7.24.9(supports-color@9.4.0))(@babel/preset-env@7.24.8(@babel/core@7.24.9(supports-color@9.4.0))(supports-color@9.4.0))(@types/react@18.3.3)(bufferutil@4.0.8)(encoding@0.1.13)(react@19.0.0-rc-fb9a90fa48-20240614)(supports-color@9.4.0)(utf-8-validate@6.0.4))(react@19.0.0-rc-fb9a90fa48-20240614)(supports-color@9.4.0)(typescript@5.5.3)(utf-8-validate@6.0.4)(viem@2.17.5(bufferutil@4.0.8)(typescript@5.5.3)(utf-8-validate@6.0.4)(zod@3.23.8))(zod@3.23.8)
+      zustand:
+        specifier: ^4.5.5
+        version: 4.5.5(@types/react@18.3.3)(react@19.0.0-rc-fb9a90fa48-20240614)
     devDependencies:
       '@next/eslint-plugin-next':
         specifier: ^14.2.5
@@ -2097,6 +2103,19 @@ packages:
 
   '@radix-ui/react-roving-focus@1.1.0':
     resolution: {integrity: sha512-EA6AMGeq9AEeQDeSH0aZgG198qkfHSbvWTf1HvoDmOB5bBG/qTxjYMWUKMnYiV6J/iP/J8MEFSuB2zRU2n7ODA==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
+  '@radix-ui/react-separator@1.1.0':
+    resolution: {integrity: sha512-3uBAs+egzvJBDZAzvb/n4NxxOYpnspmWxO2u5NbZ8Y6FM/NdrGSF9bop3Cf6F6C71z1rTSn8KV0Fo2ZVd79lGA==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -6591,6 +6610,11 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
+  use-sync-external-store@1.2.2:
+    resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
   utf-8-validate@5.0.10:
     resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
     engines: {node: '>=6.14.2'}
@@ -6870,6 +6894,21 @@ packages:
     peerDependencies:
       '@types/react': '>=16.8'
       immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+
+  zustand@4.5.5:
+    resolution: {integrity: sha512-+0PALYNJNgK6hldkgDq2vLrw5f6g/jCInz52n9RTpropGgeAf/ioFUCdtsjCqu4gNhW9D01rUQBROoRjdzyn2Q==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0.6'
       react: '>=16.8'
     peerDependenciesMeta:
       '@types/react':
@@ -9151,6 +9190,15 @@ snapshots:
       '@radix-ui/react-primitive': 2.0.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)
       '@radix-ui/react-use-callback-ref': 1.1.0(@types/react@18.3.3)(react@19.0.0-rc-fb9a90fa48-20240614)
       '@radix-ui/react-use-controllable-state': 1.1.0(@types/react@18.3.3)(react@19.0.0-rc-fb9a90fa48-20240614)
+      react: 19.0.0-rc-fb9a90fa48-20240614
+      react-dom: 19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614)
+    optionalDependencies:
+      '@types/react': 18.3.3
+      '@types/react-dom': 18.3.0
+
+  '@radix-ui/react-separator@1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)':
+    dependencies:
+      '@radix-ui/react-primitive': 2.0.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614))(react@19.0.0-rc-fb9a90fa48-20240614)
       react: 19.0.0-rc-fb9a90fa48-20240614
       react-dom: 19.0.0-rc-fb9a90fa48-20240614(react@19.0.0-rc-fb9a90fa48-20240614)
     optionalDependencies:
@@ -14929,6 +14977,10 @@ snapshots:
     dependencies:
       react: 19.0.0-rc-fb9a90fa48-20240614
 
+  use-sync-external-store@1.2.2(react@19.0.0-rc-fb9a90fa48-20240614):
+    dependencies:
+      react: 19.0.0-rc-fb9a90fa48-20240614
+
   utf-8-validate@5.0.10:
     dependencies:
       node-gyp-build: 4.8.1
@@ -15227,6 +15279,13 @@ snapshots:
   zustand@4.4.1(@types/react@18.3.3)(react@19.0.0-rc-fb9a90fa48-20240614):
     dependencies:
       use-sync-external-store: 1.2.0(react@19.0.0-rc-fb9a90fa48-20240614)
+    optionalDependencies:
+      '@types/react': 18.3.3
+      react: 19.0.0-rc-fb9a90fa48-20240614
+
+  zustand@4.5.5(@types/react@18.3.3)(react@19.0.0-rc-fb9a90fa48-20240614):
+    dependencies:
+      use-sync-external-store: 1.2.2(react@19.0.0-rc-fb9a90fa48-20240614)
     optionalDependencies:
       '@types/react': 18.3.3
       react: 19.0.0-rc-fb9a90fa48-20240614
