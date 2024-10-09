@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { usePGPKeyServer } from "@/hooks/usePGPKeyServer";
 import { Button } from "@/components/ui/button";
@@ -51,14 +52,16 @@ export const TrustScoreDisplay: React.FC = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label htmlFor="pgp-key">PGP Public Key</Label>
+        <Label htmlFor="pgp-key" className="text-lg">
+          PGP Public Key
+        </Label>
         <Textarea
           id="pgp-key"
           value={pgpPublicKey}
           onChange={(e) => setPgpPublicKey(e.target.value)}
           placeholder="Paste PGP Public Key here"
           required
-          className="h-32"
+          className="h-32 mt-4"
         />
       </div>
 
@@ -74,7 +77,12 @@ export const TrustScoreDisplay: React.FC = () => {
         </div>
       )}
 
-      <Button type="submit" disabled={loading} className="w-full">
+      <Button
+        type="submit"
+        variant={"secondary"}
+        disabled={loading}
+        className="w-full "
+      >
         {loading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

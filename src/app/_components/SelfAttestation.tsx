@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { usePGPKeyServer } from "@/hooks/usePGPKeyServer";
 import { useAccount } from "wagmi";
@@ -8,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Label } from "@/components/ui/label";
 import * as openpgp from "openpgp";
 import { getKeyFingerprint } from "@/lib/getKeyFingerprint";
+import { Separator } from "@/components/ui/separator";
 
 export const SelfAttestation: React.FC = () => {
   const [pgpPublicKey, setPgpPublicKey] = useState("");
@@ -69,7 +71,7 @@ export const SelfAttestation: React.FC = () => {
 
         if (!isValid) {
           setError(
-            "Invalid signature or message does not match the expected content",
+            "Invalid signature or message does not match the expected content"
           );
         } else {
           setError("");
@@ -90,7 +92,7 @@ export const SelfAttestation: React.FC = () => {
 
     if (!isValidKey || !isValidSignature) {
       setError(
-        "Please ensure both the PGP public key and signed message are valid",
+        "Please ensure both the PGP public key and signed message are valid"
       );
       return;
     }
@@ -98,10 +100,10 @@ export const SelfAttestation: React.FC = () => {
     try {
       const attestationHash = await createSelfAttestation(
         pgpPublicKey,
-        signedMessage,
+        signedMessage
       );
       setSuccess(
-        `Self-attestation created with transaction hash: ${attestationHash}`,
+        `Self-attestation created with transaction hash: ${attestationHash}`
       );
     } catch (err) {
       console.log(err);
@@ -111,8 +113,18 @@ export const SelfAttestation: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="font-medium text-lg">New Self-Attestation</div>
+      <div>
+        <div className="description-text">
+          <div>Self-Attestation Schema</div>
+          <div>
+            UID:0x6d796e7a029b87ac90ae1992f010895965622a850c43338515dc80f2ba31f77b
+          </div>
+        </div>
+      </div>
+      <Separator />
       <Alert>
-        <AlertTitle>
+        <AlertTitle className="mb-4">
           Instructions for Generating a New PGP Key and Self-Attestation
         </AlertTitle>
         <AlertDescription>
@@ -219,13 +231,11 @@ export const SelfAttestation: React.FC = () => {
         {isValidSignature && <p className="text-green-500">Valid signature</p>}
       </div>
 
-      <Button
-        type="submit"
-        className="w-full"
-        disabled={!isValidKey || !isValidSignature}
-      >
-        Create Self-Attestation
-      </Button>
+      <div className="w-full flex justify-end">
+        <Button type="submit" disabled={!isValidKey || !isValidSignature}>
+          Create Self-Attestation
+        </Button>
+      </div>
 
       {error && (
         <Alert variant="destructive">

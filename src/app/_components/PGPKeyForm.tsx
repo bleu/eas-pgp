@@ -1,5 +1,5 @@
 // src/app/_components/PGPKeyForm.tsx
-
+"use client";
 import React, { useState, useEffect } from "react";
 import { usePGPKeyServer } from "@/hooks/usePGPKeyServer";
 import { PGPKeyGenerator } from "./PGPKeyGenerator";
@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getKeyFingerprint } from "@/lib/getKeyFingerprint";
+import { Separator } from "@/components/ui/separator";
 
 type InputType = "publicKey" | "fingerprint";
 
@@ -38,8 +39,8 @@ export const PGPKeyForm: React.FC = () => {
                 expires: keyInfo.expires,
               },
               null,
-              2,
-            ),
+              2
+            )
           );
         } catch (err) {
           console.error("Error getting key info:", err);
@@ -63,10 +64,10 @@ export const PGPKeyForm: React.FC = () => {
       const attestationHash = await createThirdPartyAttestation(
         inputType === "publicKey" ? pgpPublicKey : fingerprint,
         trustLevel,
-        metadata,
+        metadata
       );
       setSuccess(
-        `Attestation created with transaction hash: ${attestationHash}`,
+        `Attestation created with transaction hash: ${attestationHash}`
       );
     } catch (err) {
       setError((err as Error).message);
@@ -81,6 +82,16 @@ export const PGPKeyForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="font-medium text-lg">New Third Party Attestation</div>
+      <div>
+        <div className="description-text">
+          <div>Third party Attestation Schema</div>
+          <div>
+            UID:0xa2bcb9b27c17c609a12e38f848118af93fcd7d6ea6f6f7d4cb234ce33e568c63
+          </div>
+        </div>
+      </div>
+      <Separator />
       <PGPKeyGenerator onKeyGenerated={handleKeyGenerated} />
 
       <RadioGroup
@@ -158,9 +169,9 @@ export const PGPKeyForm: React.FC = () => {
         />
       </div>
 
-      <Button type="submit" className="w-full">
-        Attest to Key
-      </Button>
+      <div className="w-full flex justify-end">
+        <Button type="submit">Attest to Key</Button>
+      </div>
 
       {error && (
         <Alert variant="destructive">

@@ -20,27 +20,25 @@ const App: React.FC = () => {
   const { fetchOrInitializeSchema } = usePGPKeyServer();
 
   return (
-    <Layout>
-      <div className="space-y-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>PGP Attestation Schemas</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-2">
-              Self-Attestation Schema UID: {SELF_ATTESTATION_SCHEMA_UID}
-            </p>
-            <p className="mb-4">
-              Third-Party Attestation Schema UID:{" "}
-              {THIRD_PARTY_ATTESTATION_SCHEMA_UID}
-            </p>
-            <Button onClick={fetchOrInitializeSchema}>
-              Initialize Schemas
-            </Button>
-          </CardContent>
-        </Card>
+    // <Layout>
+    <div className="space-y-8">
+      <Card>
+        <CardHeader>
+          <CardTitle>PGP Attestation Schemas</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-2">
+            Self-Attestation Schema UID: {SELF_ATTESTATION_SCHEMA_UID}
+          </p>
+          <p className="mb-4">
+            Third-Party Attestation Schema UID:{" "}
+            {THIRD_PARTY_ATTESTATION_SCHEMA_UID}
+          </p>
+          <Button onClick={fetchOrInitializeSchema}>Initialize Schemas</Button>
+        </CardContent>
+      </Card>
 
-        <Tabs defaultValue="self-attest">
+      {/* <Tabs defaultValue="self-attest">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="self-attest">Self-Attest PGP Key</TabsTrigger>
             <TabsTrigger value="third-party-attest">
@@ -100,9 +98,9 @@ const App: React.FC = () => {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
-      </div>
-    </Layout>
+        </Tabs> */}
+    </div>
+    // </Layout>
   );
 };
 

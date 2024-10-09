@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import useRevokeAttestation from "@/hooks/useRevokeOnChainAttestation";
 
@@ -10,27 +11,39 @@ const RevokeAttestation = ({
   schemaId: string;
   isRevoked: boolean;
 }) => {
-  const { revokeAttestation, loading, error, success } = useRevokeAttestation();
+  const { revokeAttestation } = useRevokeAttestation();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleRevoke = () => {
-    revokeAttestation(uid, schemaId);
+  const handleRevoke = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      await revokeAttestation(uid, schemaId);
+      setSuccess(true);
+    } catch (error) {
+      setError("Error revoking attestation");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <Button
-        variant={"outline"}
-        className="bg-red-500 text-white"
+        variant="default"
+        className="w-full"
         onClick={handleRevoke}
         disabled={loading || isRevoked}
       >
-        Revoke
+        {loading ? "Revoking..." : isRevoked ? "Revoked" : "Revoke"}
       </Button>
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      {success && (
-        <p className="text-green-500">Attestation revoked successfully</p>
-      )}
+      {error && <p>{error}</p>}
     </div>
   );
 };

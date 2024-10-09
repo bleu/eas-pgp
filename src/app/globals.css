@@ -12,7 +12,10 @@
     --popover-foreground: 0 0% 3.9%;
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
+    --secondary: 220 60% 99%;
+    --optimism: 353, 100%, 51%;
+    --optimism-active: 352, 99%, 36%;
+    --disabled: 228, 17%, 89%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
@@ -65,5 +68,34 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .primary-bg-button {
+    background-color: hsl(var(--optimism));
+  }
+  .primary-bg-button-active {
+    background-color: hsl(var(--optimism-active));
+  }
+  .primary-bg-button-hover {
+    background-color: hsl(var(--optimism-active));
+  }
+  .disabled-bg-button {
+    background-color: hsl(var(--disabled));
+    color: rgb(145, 149, 169);
+  }
+  .secondary-border-button {
+    border: 1px solid hsl(240, 12%, 78%);
+  }
+  .secondary-button-hover {
+    background-color: hsl(231, 37%, 96%);
+  }
+  .secondary-button-active {
+    background-color: hsl(229, 22%, 90%);
+  }
+  .description-text {
+    color: hsl(221, 13%, 46%);
+    font-size: 14px;
   }
 }
