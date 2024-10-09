@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import useRevokeAttestation from "@/hooks/useRevokeOnChainAttestation";
+import { useRevokeAttestationStore } from "@/store/useRevokeAttestationState";
 
 const RevokeAttestation = ({
   uid,
@@ -10,10 +11,21 @@ const RevokeAttestation = ({
   schemaId: string;
   isRevoked: boolean;
 }) => {
-  const { revokeAttestation, loading } = useRevokeAttestation();
+  const { revokeAttestation } = useRevokeAttestation();
+  const loading = useRevokeAttestationStore(
+    (state) => state.loading[uid] || false
+  );
+  const setLoading = useRevokeAttestationStore((state) => state.setLoading);
 
-  const handleRevoke = () => {
-    revokeAttestation(uid, schemaId);
+  const handleRevoke = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+
+    setLoading(uid, true);
+    try {
+      await revokeAttestation(uid, schemaId);
+    } finally {
+      setLoading(uid, false);
+    }
   };
 
   return (
