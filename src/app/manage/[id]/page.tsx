@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { formatTime } from "@/lib/formatTime";
 import RevokeAttestation from "@/app/_components/RevokeAttestation";
 import useRevokeOnChainAttestation from "@/hooks/useRevokeOnChainAttestation";
+import { useRevokeAttestationStore } from "@/store/useRevokeAttestationState";
 
 export type Attestation = {
   id: string;
@@ -24,11 +25,16 @@ export type Attestation = {
 function AttestationDetails() {
   const { attestations, loading, error } = useGetAttestations();
   const pathname = usePathname();
-  const {
-    loading: revokeLoading,
-    error: revokeError,
-    success: revokeSuccess,
-  } = useRevokeOnChainAttestation();
+
+  const revokeLoading = useRevokeAttestationStore((state) =>
+    attestation ? state.loading[attestation.id] : false
+  );
+  const revokeError = useRevokeAttestationStore((state) =>
+    attestation ? state.error[attestation.id] : undefined
+  );
+  const revokeSuccess = useRevokeAttestationStore((state) =>
+    attestation ? state.success[attestation.id] : undefined
+  );
 
   const currentId = useMemo(() => pathname.split("/").pop(), [pathname]);
   const attestation = useMemo(
