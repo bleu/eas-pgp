@@ -1,20 +1,17 @@
 "use client";
 import { useEASConnection } from "@/hooks/useEASConnection";
 import { useRevokeAttestationStore } from "@/store/useRevokeAttestationState";
+
 const useRevokeOnChainAttestation = () => {
   const { eas } = useEASConnection();
-  const { loading, error, success, setLoading, setError, setSuccess } =
-    useRevokeAttestationStore();
+
+  const { setStatus } = useRevokeAttestationStore();
 
   const revokeAttestation = async (uid: string, schemaId: string) => {
     if (!eas) {
-      setError("EAS is not connected");
       return;
     }
-
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
+    setStatus(uid, { loading: true, error: null, success: false });
 
     try {
       const transaction = await eas.revoke({
@@ -23,16 +20,16 @@ const useRevokeOnChainAttestation = () => {
       });
 
       await transaction.wait();
-      setSuccess(true);
+      setStatus(uid, { loading: false, error: null, success: true });
     } catch (error) {
-      setError("Error revoking attestation");
-      console.error("Error revoking attestation:", error);
-    } finally {
-      setLoading(false);
+      setStatus(uid, {
+        loading: false,
+        error: "Error revoking",
+        success: false,
+      });
     }
   };
 
-  return { revokeAttestation, loading, error, success };
+  return { revokeAttestation };
 };
-
 export default useRevokeOnChainAttestation;

@@ -4,8 +4,7 @@ import useGetAttestations from "@/hooks/useGetAttestations";
 import { usePathname } from "next/navigation";
 import { formatTime } from "@/lib/formatTime";
 import RevokeAttestation from "@/app/_components/RevokeAttestation";
-import useRevokeOnChainAttestation from "@/hooks/useRevokeOnChainAttestation";
-
+import { useRevokeAttestationStore } from "@/store/useRevokeAttestationState";
 export type Attestation = {
   id: string;
   attester: string;
@@ -24,11 +23,7 @@ export type Attestation = {
 function AttestationDetails() {
   const { attestations, loading, error } = useGetAttestations();
   const pathname = usePathname();
-  const {
-    loading: revokeLoading,
-    error: revokeError,
-    success: revokeSuccess,
-  } = useRevokeOnChainAttestation();
+  const { statuses } = useRevokeAttestationStore();
 
   const currentId = useMemo(() => pathname.split("/").pop(), [pathname]);
   const attestation = useMemo(
@@ -97,11 +92,9 @@ function AttestationDetails() {
         ))}
       </div>
       <div className="text-center p-4 font-semibold">
-        {revokeLoading && <p>Loading...</p>}
-        {revokeError && <p className="text-red-500">{revokeError}</p>}
-        {revokeSuccess && (
-          <p className="text-green-500">Attestation revoked successfully</p>
-        )}
+        {statuses[attestation.id]?.loading && "Revoking..."}
+        {statuses[attestation.id]?.error && statuses[attestation.id]?.error}
+        {statuses[attestation.id]?.success && "Revoked"}
       </div>
     </div>
   );
