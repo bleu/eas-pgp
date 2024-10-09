@@ -36,7 +36,7 @@ const RevokeAttestation = ({
         onClick={handleRevoke}
         disabled={loading || isRevoked}
       >
-        {isRevoked ? "Revoked" : "Revoke"}
+        {loading ? "Revoking..." : isRevoked ? "Revoked" : "Revoke"}
       </Button>
     </div>
   );
