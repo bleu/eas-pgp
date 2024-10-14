@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { NextPage } from "next";
 import useGetAttestations from "@/hooks/useGetAttestations";
 import {
@@ -12,30 +13,42 @@ import {
 } from "@/components/ui/table";
 import RevokeAttestation from "./RevokeAttestation";
 import { useCallback, useMemo } from "react";
-import { formatKey } from "@/lib/formatKey";
 import { formatTime } from "@/lib/formatTime";
+import { useRouter } from "next/navigation";
+import { trimAddress } from "@/lib/trimAddress";
 const ManageAttestation: NextPage = () => {
   const { attestations, loading, error } = useGetAttestations();
 
-  const renderTableHeader = useMemo(() => {
-    if (attestations && attestations.length > 0) {
-      return (
-        <TableRow>
-          <TableHead className="font-semibold">Action</TableHead>
-          {Object.keys(attestations[0]).map((key) => (
-            <TableHead className="font-semibold" key={key}>
-              {formatKey(key)}
-            </TableHead>
-          ))}
-        </TableRow>
-      );
-    }
-    return <></>;
-  }, [attestations]);
-
+  const router = useRouter();
+  const handleNavigateById = useCallback(
+    (id: string) => {
+      router.push(`/manage/${id}`);
+    },
+    [router]
+  );
+  const tableHeads = [
+    "ID",
+    "Recipient",
+    "Attester",
+    "Revocation Time",
+    "Expiration Time",
+  ];
+  const renderTableHeader = () => (
+    <TableRow>
+      <TableHead className="font-semibold">Action</TableHead>
+      {tableHeads.map((key) => (
+        <TableHead className="font-semibold" key={key}>
+          {key}
+        </TableHead>
+      ))}
+    </TableRow>
+  );
   const renderTableRows = useCallback(() => {
-    return attestations?.map((attestation: any) => (
-      <TableRow key={attestation.id}>
+    return attestations?.map((attestation) => (
+      <TableRow
+        key={attestation.id}
+        onClick={handleNavigateById.bind(null, attestation.id)}
+      >
         <TableCell className="text-right">
           <RevokeAttestation
             uid={attestation.id}
@@ -43,28 +56,46 @@ const ManageAttestation: NextPage = () => {
             isRevoked={attestation.revoked}
           />
         </TableCell>
-        {Object.entries(attestation).map(([key, value], index) => (
-          <TableCell
-            key={index}
-            className={
-              index === Object.entries(attestation).length - 1
-                ? "text-right"
-                : ""
-            }
-          >
-            {key === "revocationTime" || key === "expirationTime"
-              ? formatTime(Number(value), key)
-              : key === "schema"
-                ? (value as any).id // Ensure value is treated as an object
-                : String(value)}
-          </TableCell>
-        ))}
+        <TableCell
+          className="cursor-pointer hover:font-bold"
+          onClick={() => handleNavigateById(attestation.id)}
+        >
+          {trimAddress(attestation.id, 5, 5)}
+        </TableCell>
+        <TableCell
+          className="cursor-pointer"
+          onClick={() => handleNavigateById(attestation.id)}
+        >
+          {trimAddress(attestation.recipient, 5, 5)}
+        </TableCell>
+        <TableCell
+          className="cursor-pointer"
+          onClick={() => handleNavigateById(attestation.id)}
+        >
+          {trimAddress(attestation.attester, 5, 5)}
+        </TableCell>
+        <TableCell
+          className="cursor-pointer"
+          onClick={() => handleNavigateById(attestation.id)}
+        >
+          {formatTime(Number(attestation.revocationTime), "revocationTime")}
+        </TableCell>
+        <TableCell
+          className="cursor-pointer"
+          onClick={() => handleNavigateById(attestation.id)}
+        >
+          {formatTime(Number(attestation.expirationTime), "expirationTime")}
+        </TableCell>
       </TableRow>
     ));
-  }, [attestations]);
+  }, [attestations, handleNavigateById]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="w-full h-96 items-center justify-center text-lg flex">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   if (error) {
@@ -79,7 +110,7 @@ const ManageAttestation: NextPage = () => {
             ? "A list of your attestations"
             : "Please connect wallet"}
         </TableCaption>
-        <TableHeader>{renderTableHeader}</TableHeader>
+        <TableHeader>{renderTableHeader()}</TableHeader>
         <TableBody>{renderTableRows()}</TableBody>
       </Table>
     </div>
